@@ -730,6 +730,7 @@ main {
 ::-webkit-scrollbar-thumb:hover { background: #3a3a3a; }
 
 /* ─── Responsive ────────────────────────────────────────────────── */
+/* ─── Tablet (≤900px) ───────────────────────────────────────────── */
 @media (max-width: 900px) {
   .layout {
     grid-template-columns: 1fr;
@@ -740,22 +741,140 @@ main {
     height: auto;
     border-right: none;
     border-bottom: 1px solid var(--border);
+    padding: 16px;
   }
+
+  /* Collapse sidebar sections into a horizontal scrollable row of chips */
+  .sidebar-section {
+    margin-bottom: 16px;
+  }
+
+  .chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .chips::-webkit-scrollbar { display: none; }
 
   header {
-    padding: 16px 20px;
-    position: static;
+    padding: 12px 20px;
+    height: auto;
+    position: sticky;
+    top: 0;
   }
 
-  main { padding: 20px 16px 40px; }
+  main { padding: 16px 12px 40px; }
+
+  /* Stats grid — 4 across on tablet */
+  .stats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* List view is too wide on tablet — force grid */
+  #game-grid.list-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  #game-grid.list-view .list-header { display: none; }
+
+  #game-grid.list-view .game-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #game-grid.list-view .card-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2/3;
+  }
+
+  #game-grid.list-view .card-body {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+  }
+
+  #game-grid.list-view .card-body > * {
+    display: block;
+    padding: 0;
+    border-bottom: none;
+  }
+
+  #game-grid.list-view .card-title {
+    white-space: normal;
+    margin-bottom: 6px;
+  }
+
+  #game-grid.list-view .card-genres {
+    white-space: normal;
+    overflow: visible;
+    max-width: 100%;
+    margin-bottom: 6px;
+  }
+
+  #game-grid.list-view .card-developer,
+  #game-grid.list-view .card-year { display: none; }
+
+  #game-grid.list-view .status-selector {
+    width: 100%;
+    margin-top: auto;
+    padding-top: 10px;
+  }
+
+  #game-grid.list-view .status-selector .status-btn {
+    flex-direction: column;
+    padding: 5px 2px;
+    font-size: 0.62rem;
+  }
 }
 
+/* ─── Mobile (≤600px) ───────────────────────────────────────────── */
 @media (max-width: 600px) {
-  #game-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 12px;
+  header {
+    padding: 10px 14px;
+    height: auto;
   }
 
-  header h1 { font-size: 1.1rem; }
-  .header-badge { display: none; }
+  header h1 { font-size: 1rem; }
+  .header-eyebrow { display: none; }
+  .header-sub { display: none; }
+  .header-tagline { display: none; }
+  .header-badge span { display: none; } /* keep icon only */
+  .header-badge { padding: 5px 8px; }
+
+  .xbox-icon { width: 40px; height: 40px; }
+  .xbox-icon svg { width: 24px; height: 24px; }
+
+  aside { padding: 12px; }
+
+  main { padding: 12px 10px 40px; }
+
+  #game-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Tighter card body on small screens */
+  .card-body { padding: 8px; }
+  .card-title { font-size: 0.8rem; }
+  .genre-tag { font-size: 0.6rem; padding: 1px 5px; }
+
+  .status-btn { font-size: 0.58rem; }
+}
+
+/* ─── Small phone (≤400px) ──────────────────────────────────────── */
+@media (max-width: 400px) {
+  #game-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  header h1 { font-size: 0.9rem; }
 }
