@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xbox Game Pass Ultimate — PC Library</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <div class="xbox-icon">
+      <svg viewBox="0 0 24 24">
+        <path d="M4.102 4.102C2.217 5.817 1 8.268 1 11c0 5.523 4.477 10 10 10 2.732 0 5.183-1.217 6.898-3.102C17.898 19.783 18 20.384 18 21h3c0-1.1-.23-2.15-.632-3.1C21.406 16.378 22 14.258 22 12c0-5.523-4.477-10-10-10-2.258 0-4.378.594-6.9 1.632-.95-.402-2-.632-3.1-.632v3c.616 0 1.217.102 2.102 1.102zM12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm-4.95 4.464C8.302 7.7 9.58 9.16 10.84 10.64L12 12l1.16-1.36C14.42 9.16 15.698 7.7 16.95 6.464 15.498 5.54 13.813 5 12 5s-3.498.54-4.95 1.464zM5 7.05C3.54 8.503 3 10.188 3 12c0 1.813.54 3.498 1.464 4.95C5.7 15.698 7.16 14.42 8.64 13.16L10 12 8.64 10.84C7.16 9.58 5.7 8.302 5 7.05zm14 0c-.7 1.252-2.16 2.53-3.64 3.79L14 12l1.36 1.16C16.84 14.42 18.3 15.698 19 16.95 19.924 15.498 20.46 13.813 20.46 12c0-1.812-.536-3.497-1.46-4.95zM7.05 19c1.452.924 3.137 1.46 4.95 1.46s3.498-.536 4.95-1.46C15.698 17.7 14.42 16.42 13.16 15.36L12 14l-1.16 1.36C9.58 16.42 8.302 17.7 7.05 19z"/>
+      </svg>
+    </div>
+
+    <div class="header-titles">
+      <div class="header-eyebrow">Microsoft</div>
+      <h1>Xbox <strong>Game Pass</strong></h1>
+      <div class="header-sub">PC Library Tracker</div>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <div class="header-badge">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="8" cy="8" r="7" fill="#107c10" stroke="#52b043" stroke-width="1"/>
+        <line x1="5" y1="5" x2="11" y2="11" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="11" y1="5" x2="5" y2="11" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span>Ultimate Tier</span>
+    </div>
+    <div class="header-tagline">PC Game Pass</div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────────── -->
+  <aside>
+
+    <div class="sidebar-section">
+      <h3>Search</h3>
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <input type="text" id="search" placeholder="Search games, genres, devs…" autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>Genre / Type</h3>
+      <div class="chips" id="genre-chips">
+        <span class="chip active" data-genre="__all__">All</span>
+        <!-- Genre chips populated by JS from games data -->
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>Number of Players</h3>
+      <div class="chips" id="player-chips">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>My Status</h3>
+      <div class="chips" id="status-chips">
+        <span class="chip status-completed" data-status-filter="completed">✓ Completed</span>
+        <span class="chip status-dropped"   data-status-filter="dropped">✕ Dropped</span>
+        <span class="chip status-important" data-status-filter="important">★ Important</span>
+        <span class="chip status-none"      data-status-filter="none">Unmarked</span>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>Sort</h3>
+      <select id="sort">
+        <option value="az">A → Z</option>
+        <option value="za">Z → A</option>
+        <option value="year-new">Newest first</option>
+        <option value="year-old">Oldest first</option>
+        <option value="status">My Status</option>
+      </select>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>My Progress</h3>
+      <div class="stats">
+        <div class="stat-box">
+          <div class="num" id="stat-total">0</div>
+          <div class="lbl">Total</div>
+        </div>
+        <div class="stat-box completed">
+          <div class="num" id="stat-completed">0</div>
+          <div class="lbl">Completed</div>
+        </div>
+        <div class="stat-box dropped">
+          <div class="num" id="stat-dropped">0</div>
+          <div class="lbl">Dropped</div>
+        </div>
+        <div class="stat-box important">
+          <div class="num" id="stat-important">0</div>
+          <div class="lbl">Important</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <button class="btn-reset" id="btn-reset">Reset all filters</button>
+    </div>
+
+  </aside>
+
+  <!-- ── Main ────────────────────────────────────────────── -->
+  <main>
+    <div class="results-header">
+      <span class="results-count" id="results-count"></span>
+      <div class="view-toggle">
+        <button class="view-btn active" data-view="grid" title="Grid view">
+          <svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zm11 0h7v7h-7zM3 14h7v7H3zm11 0h7v7h-7z"/></svg>
+        </button>
+        <button class="view-btn" data-view="list" title="List view">
+          <svg viewBox="0 0 24 24"><path d="M3 5h2v2H3zm4 0h14v2H7zM3 11h2v2H3zm4 0h14v2H7zM3 17h2v2H3zm4 0h14v2H7z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="game-grid"></div>
+  </main>
+
+</div>
+
+<script src="games.js"></script>
+<script>
+  // Populate genre chips from games data after games.js loads
+  (function() {
+    const container = document.getElementById('genre-chips');
+    ALL_GENRES.forEach(genre => {
+      const chip = document.createElement('span');
+      chip.className = 'chip';
+      chip.dataset.genre = genre;
+      chip.textContent = genre;
+      container.appendChild(chip);
+    });
+  })();
+  (function() {
+    const container = document.getElementById('player-chips');
+    ALL_PLAYERS.forEach(mode => {
+      const chip = document.createElement('span');
+      chip.className = 'chip';
+      chip.dataset.player = mode;
+      chip.textContent = mode;
+      container.appendChild(chip);
+    });
+  })();
+</script>
+<script src="app.js"></script>
+
+</body>
+</html>
