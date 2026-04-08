@@ -5,7 +5,7 @@ const state = {
   search: '',
   genres: new Set(),        // active genre filters
   players: new Set(),       // active player mode filters
-  statusFilters: new Set(), // 'completed','dropped','important','none'
+  statusFilters: new Set(), // 'completed','dropped','to-play','none'
   sort: 'az',
   view: 'grid',
   statuses: loadStatuses(),
@@ -91,7 +91,7 @@ function getFilteredGames() {
       list.sort((a, b) => a.year - b.year);
       break;
     case 'status': {
-      const order = { important: 0, completed: 1, dropped: 2, none: 3 };
+      const order = { 'to-play': 0, completed: 1, dropped: 2, none: 3 };
       list.sort((a, b) => {
         const sa = state.statuses[a.id] || 'none';
         const sb = state.statuses[b.id] || 'none';
@@ -148,7 +148,7 @@ function renderGrid(games) {
     card.className = `game-card${status ? ` status-${status}` : ''}`;
     card.dataset.id = game.id;
 
-    const ribbonLabel = { completed: 'Completed', dropped: 'Dropped', important: 'Important' };
+    const ribbonLabel = { completed: 'Completed', dropped: 'Dropped', 'to-play': 'To-Play' };
     const ribbon = status
       ? `<span class="status-ribbon ${status}">${ribbonLabel[status]}</span>`
       : '';
@@ -158,13 +158,13 @@ function renderGrid(games) {
     const tooltipTags = [...game.genres, ...(game.players || [])].map(t => `<span class="genre-tag">${t}</span>`).join('');
     const tooltip = isList ? `<span class="genres-tooltip">${tooltipTags}</span>` : '';
 
-    const statusBtns = ['completed', 'dropped', 'important'].map(s => `
+    const statusBtns = ['completed', 'dropped', 'to-play'].map(s => `
       <button class="status-btn${status === s ? ' active' : ''}"
               data-id="${game.id}"
               data-status="${s}"
               title="${s.charAt(0).toUpperCase() + s.slice(1)}">
         <span>${s === 'completed' ? '✓' : s === 'dropped' ? '✕' : '★'}</span>
-        ${isList ? '' : `<span>${s.charAt(0).toUpperCase() + s.slice(1)}</span>`}
+        ${isList ? '' : `<span>${s === 'to-play' ? 'To-Play' : s.charAt(0).toUpperCase() + s.slice(1)}</span>`}
       </button>`).join('');
 
     card.innerHTML = isList ? `
@@ -203,14 +203,14 @@ function updateStats() {
     seen.add(g.id);
     return true;
   });
-  const counts = { completed: 0, dropped: 0, important: 0 };
+  const counts = { completed: 0, dropped: 0, 'to-play': 0 };
   for (const g of all) {
     const s = state.statuses[g.id];
     if (s && counts[s] !== undefined) counts[s]++;
   }
   document.getElementById('stat-completed').textContent = counts.completed;
   document.getElementById('stat-dropped').textContent = counts.dropped;
-  document.getElementById('stat-important').textContent = counts.important;
+  document.getElementById('stat-to-play').textContent = counts.to-play;
   document.getElementById('stat-total').textContent = all.length;
 }
 
